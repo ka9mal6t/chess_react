@@ -1,5 +1,5 @@
 import {Colors} from "./Colors";
-import {Figure} from "./figures/Figure";
+import {Figure, FigureNames} from "./figures/Figure";
 import {Board} from "./Board";
 
 export class Cell{
@@ -94,4 +94,16 @@ export class Cell{
             this.figure = null;
         }
     }
+    checkPawnUp(target: Cell): boolean{
+        if (target.figure) {
+            return target.figure.checkPawnUp(target);
+        }
+        return false;
+    }
+    pawnUp(target: Cell, figure: FigureNames){
+        if (target.figure) {
+            target.figure?.pawnUp(target, figure);
+        }
+    }
+
 }

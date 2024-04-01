@@ -35,4 +35,9 @@ export class Figure{
         return true;
     }
     moveFigure(target: Cell){}
+    checkPawnUp(target: Cell): boolean{
+        return true;
+    }
+    pawnUp(target: Cell, figure: FigureNames){}
+
 }

@@ -71,3 +71,58 @@
   flex-basis: calc(25% - 5px);
   box-sizing: border-box;
 }
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный затемненный фон */
+  z-index: 999; /* наибольший z-index для перекрытия других элементов */
+  transition: opacity 0.3s ease; /* плавное появление и исчезновение */
+  opacity: 0; /* начальное значение прозрачности */
+  pointer-events: none; /* по умолчанию не перехватывать события мыши */
+}
+
+.modal.open {
+  opacity: 1; /* отображать модальное окно при открытии */
+  pointer-events: auto; /* разрешить перехват событий мыши */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* тень для окна */
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+}
+
+.modal-content button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 3px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #2980b9;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 998; /* ниже z-index, чем у модального окна */
+}

@@ -3,6 +3,10 @@ import {Colors} from "../Colors";
 import {Cell} from "../Cell";
 import blackLogo from "../../assets/black-pawn.png";
 import whiteLogo from "../../assets/white-pawn.png";
+import {Queen} from "./Queen";
+import {Bishop} from "./Bishop";
+import {Knight} from "./Knight";
+import {Rook} from "./Rook";
 
 export class Pawn extends Figure{
     isFirstStep: boolean = true;
@@ -35,5 +39,47 @@ export class Pawn extends Figure{
     moveFigure(target: Cell) {
         super.moveFigure(target);
         this.isFirstStep = false;
+        // if (this.cell.figure
+        //     && target.y === 7
+        //     && this.cell.figure?.color === Colors.BLACK) {
+        //
+        //     // this.cell.setFigure(new Queen(Colors.BLACK, this.cell))
+        // }
+        //
+        // if (this.cell.figure
+        //     && target.y === 0
+        //     && this.cell.figure?.color === Colors.WHITE) {
+        //
+        //     this.cell.setFigure(new Queen(Colors.WHITE, this.cell))
+        // }
     }
+    checkPawnUp(target: Cell): boolean {
+        if (target.figure
+            && target.y === 7
+            && target.figure?.color === Colors.BLACK) {
+            return true;
+        }
+        if (target.figure
+            && target.y === 0
+            && target.figure?.color === Colors.WHITE) {
+            return true;
+        }
+        return false;
+    }
+    pawnUp(target: Cell, figure: FigureNames){
+        if (target.figure)
+        {
+            if(figure === FigureNames.ROOK)
+                target.setFigure(new Rook(target.figure.color, target))
+            if(figure === FigureNames.QUEEN)
+                target.setFigure(new Queen(target.figure.color, target))
+            if(figure === FigureNames.KNIGHT)
+                target.setFigure(new Knight(target.figure.color, target))
+            if(figure === FigureNames.BISHOP)
+                target.setFigure(new Bishop(target.figure.color, target))
+        }
+    }
+
 }
+
+

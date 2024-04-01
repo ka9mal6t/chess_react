@@ -4,6 +4,8 @@ import {Cell} from "../models/Cell";
 import CellComponent from "./CellComponent";
 import {Player} from "../models/Player";
 import {Colors} from "../models/Colors";
+import {FigureNames} from "../models/figures/Figure";
+import ModalComponent from "../modal/ModalComponent";
 
 interface BoardProps {
     board: Board;
@@ -13,9 +15,22 @@ interface BoardProps {
 }
 const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPlayer}) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const[lastCell, setLastCell] = useState<Cell | null>(null)
+
+    const handleSelectFigure = (figureName: FigureNames) => {
+        if (lastCell) {
+            lastCell.pawnUp(lastCell, figureName);
+            setShowModal(false);
+        }
+    };
     function click(cell: Cell){
         if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)){
             selectedCell.moveFigure(cell);
+            setLastCell(cell);
+            if (selectedCell.checkPawnUp(cell)){
+                setShowModal(true);
+            }
             swapPlayer();
             setSelectedCell(null);
         }
@@ -39,13 +54,16 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
         const newBoard = board.getCopyBoard();
         setBoard(newBoard);
     }
-    if(currentPlayer?.color === Colors.WHITE) {
-        return (
-            <div className="board">
-                {board.cells.map((row, index) =>
+    return (
+        <div className="board">
+            {currentPlayer?.color === Colors.WHITE
+                ?
+                board.cells
+                    .map((row, index) =>
 
                         <React.Fragment key={index}>
-                            {row.map(cell =>
+                            {row
+                                .map(cell =>
                                 <CellComponent
                                     click={click}
                                     cell={cell}
@@ -54,16 +72,8 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
                                 />
                             )}
                         </React.Fragment>
-                    )}
-            </div>
-        );
-    }
-    else {
-         return (
-            <div className="board">
-                {board.cells
-                    .slice().reverse()
-                    .map((row, index) =>
+                    ):
+                board.cells.slice().reverse().map((row, index) =>
 
                         <React.Fragment key={index}>
                             {row.slice().reverse().map(cell =>
@@ -75,10 +85,22 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
                                 />
                             )}
                         </React.Fragment>
-                    )}
-            </div>
-        );
-    }
+                    )
+            }
+            {showModal && (
+        <ModalComponent
+          isOpen={showModal}
+          handleClose={() => setShowModal(false)}
+          handleSelectFigure={handleSelectFigure}
+        />
+      )}
+      {/* Блокировка интерактивных элементов при открытом модальном окне */}
+      {showModal && <div className="overlay" />}
+
+
+        </div>
+    );
+
 };
 
 export default BoardComponent;

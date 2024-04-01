@@ -31,26 +31,26 @@ function App() {
     }
 
     return (
-    <div className="app">
-        <Timer
-            currentPlayer={currentPlayer}
-            restart={restart}/>
-        <BoardComponent
-        board={board}
-        setBoard={setBoard}
-        currentPlayer={currentPlayer}
-        swapPlayer={swapPlayer}
-        />
-        <div>
-            <LostFigures
-                title={"Black"}
-                figures={board.lostBlackFigures}/>
+        <div className="app">
+            <Timer
+                currentPlayer={currentPlayer}
+                restart={restart}/>
+            <BoardComponent
+                board={board}
+                setBoard={setBoard}
+                currentPlayer={currentPlayer}
+                swapPlayer={swapPlayer}
+            />
+            <div>
+                <LostFigures
+                    title={"Black"}
+                    figures={board.lostBlackFigures}/>
 
-             <LostFigures
-                title={"White"}
-                figures={board.lostWhiteFigures}/>
+                <LostFigures
+                    title={"White"}
+                    figures={board.lostWhiteFigures}/>
+            </div>
         </div>
-    </div>
     );
 }
 

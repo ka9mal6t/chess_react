@@ -77,7 +77,6 @@ export class Board{
         new Knight(Colors.WHITE, this.getCell(6, 7));
     }
     public addFigures(){
-
         this.addKings();
         this.addQueens();
         this.addRooks();
