@@ -12,6 +12,7 @@ function App() {
     const [whitePlayer, setWhitePlayer] = useState(new Player(Colors.WHITE));
     const [blackPlayer, setBlackPlayer] = useState(new Player(Colors.BLACK));
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
+    const [timerStop, setTimerStop] = useState<boolean>(false);
 
     useEffect(() => {
         restart();
@@ -26,20 +27,26 @@ function App() {
         setCurrentPlayer(whitePlayer);
     }
 
-    function swapPlayer(){
+    function swapPlayer(): Colors{
         setCurrentPlayer(currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer);
+        return currentPlayer?.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE;
     }
 
     return (
         <div className="app">
             <Timer
                 currentPlayer={currentPlayer}
-                restart={restart}/>
+                restart={restart}
+                timerStop={timerStop}
+                setTimerStop={setTimerStop}
+            />
             <BoardComponent
                 board={board}
                 setBoard={setBoard}
                 currentPlayer={currentPlayer}
                 swapPlayer={swapPlayer}
+                timerStop={timerStop}
+                setTimerStop={setTimerStop}
             />
             <div>
                 <LostFigures

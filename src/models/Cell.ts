@@ -95,7 +95,7 @@ export class Cell{
         }
     }
     checkPawnUp(target: Cell): boolean{
-        if (target.figure) {
+        if (target.figure?.name === FigureNames.PAWN) {
             return target.figure.checkPawnUp(target);
         }
         return false;
@@ -104,6 +104,22 @@ export class Cell{
         if (target.figure) {
             target.figure?.pawnUp(target, figure);
         }
+    }
+    isKingUnderCheck(): boolean{
+        if (this.figure?.name === FigureNames.KING) {
+            const enemyColor = this.figure.color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
+            const newBoard = this.board.getCopyBoard();
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (newBoard.cells[row][col].figure?.color === enemyColor
+                        && this !== null
+                        && newBoard.cells[row][col].figure?.canMove(this)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }

@@ -16,7 +16,8 @@ export class King extends Figure{
         if(!super.canMove(target))
             return false;
         if (Math.abs(target.y - this.cell.y) < 2
-            && Math.abs(target.x - this.cell.x) < 2)
+            && Math.abs(target.x - this.cell.x) < 2
+            && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x))
             return true;
         return false;
     }

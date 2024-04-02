@@ -25,13 +25,15 @@ export class Pawn extends Figure{
         if ((target.y === this.cell.y + direction || this.isFirstStep
             && (target.y === this.cell.y + firstStepDirection))
             && target.x === this.cell.x
-            && this.cell.board.getCell(target.x, target.y).isEmpty()) {
+            && this.cell.board.getCell(target.x, target.y).isEmpty()
+            && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x)) {
             return true;
         }
 
         if (target.y === this.cell.y + direction
             && (target.x === this.cell.x + 1 || target.x === this.cell.x - 1)
-            && this.cell.isEnemy(target)){
+            && this.cell.isEnemy(target)
+            && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x)){
             return true;
         }
         return false;
@@ -39,19 +41,6 @@ export class Pawn extends Figure{
     moveFigure(target: Cell) {
         super.moveFigure(target);
         this.isFirstStep = false;
-        // if (this.cell.figure
-        //     && target.y === 7
-        //     && this.cell.figure?.color === Colors.BLACK) {
-        //
-        //     // this.cell.setFigure(new Queen(Colors.BLACK, this.cell))
-        // }
-        //
-        // if (this.cell.figure
-        //     && target.y === 0
-        //     && this.cell.figure?.color === Colors.WHITE) {
-        //
-        //     this.cell.setFigure(new Queen(Colors.WHITE, this.cell))
-        // }
     }
     checkPawnUp(target: Cell): boolean {
         if (target.figure

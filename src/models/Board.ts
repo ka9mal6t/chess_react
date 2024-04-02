@@ -6,14 +6,14 @@ import {Queen} from "./figures/Queen";
 import {Bishop} from "./figures/Bishop";
 import {Rook} from "./figures/Rook";
 import {Knight} from "./figures/Knight";
-import {Figure} from "./figures/Figure";
+import {Figure, FigureNames} from "./figures/Figure";
 
-export class Board{
+export class Board {
     cells: Cell[][] = [];
     lostBlackFigures: Figure[] = [];
     lostWhiteFigures: Figure[] = [];
 
-    public initCells(){
+    public initCells() {
         for (let i = 0; i < 8; i++) {
             const row: Cell[] = []
             for (let j = 0; j < 8; j++) {
@@ -25,19 +25,123 @@ export class Board{
             this.cells.push(row);
         }
     }
-    public getCopyBoard() : Board{
+
+    public getCopyBoard(): Board {
         const newBoard = new Board();
         newBoard.cells = this.cells;
         newBoard.lostWhiteFigures = this.lostWhiteFigures;
         newBoard.lostBlackFigures = this.lostBlackFigures;
         return newBoard;
     }
-    public highlightCells(selectefCell: Cell | null){
+
+    getKingCell(color: Colors): Cell | null {
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                const cell = this.getCell(row, col);
+                if (cell.figure?.name === FigureNames.KING
+                    && cell.figure.color === color)
+                    return cell;
+            }
+        }
+        return null;
+    }
+
+    isWillBeKingUnderCheck(cell_y: number, cell_x: number, target_y: number, target_x: number): boolean {
+        const newBoard = this.getCopyBoard();
+        const color = newBoard.cells[cell_y][cell_x].figure?.color;
+        const enemyColor = color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
+        const oldFigure = newBoard.cells[target_y][target_x].figure;
+        newBoard.cells[target_y][target_x].figure = newBoard.cells[cell_y][cell_x].figure;
+        newBoard.cells[cell_y][cell_x].figure = null;
+
+        if (color !== undefined) {
+            const kingPos = newBoard.getKingCell(color)
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (newBoard.cells[row][col].figure?.color === enemyColor
+                        && kingPos !== null
+                        && newBoard.cells[row][col].figure?.canMove(kingPos)) {
+                        newBoard.cells[cell_y][cell_x].figure = newBoard.cells[target_y][target_x].figure;
+                        newBoard.cells[target_y][target_x].figure = oldFigure;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        newBoard.cells[cell_y][cell_x].figure = newBoard.cells[target_y][target_x].figure;
+        newBoard.cells[target_y][target_x].figure = oldFigure;
+        return false;
+    }
+
+    isKingUnderCheck(kingColor: Colors): boolean {
+        const enemyColor = kingColor === Colors.WHITE ? Colors.BLACK : Colors.WHITE
+        const newBoard = this.getCopyBoard();
+
+        const kingPos = newBoard.getKingCell(kingColor)
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                if (newBoard.cells[row][col].figure?.color === enemyColor
+                    && kingPos !== null
+                    && newBoard.cells[row][col].figure?.canMove(kingPos)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    checkMate(color: Colors): boolean {
+        if (this.isKingUnderCheck(color)) {
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (this.cells[row][col].figure?.color === color) {
+                        const figure = this.cells[row][col].figure;
+                        for (let i = 0; i < 8; i++) {
+                            const newRow = this.cells[i];
+                            for (let j = 0; j < 8; j++) {
+                                const target = newRow[j];
+                                if (figure?.canMove(target))
+                                    return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+
+    }
+    staleMate(color: Colors): boolean{
+        if (!this.isKingUnderCheck(color)) {
+            for (let row= 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    if (this.cells[row][col].figure?.color === color) {
+                        const figure = this.cells[row][col].figure;
+                        for (let i = 0; i < 8; i++) {
+                            const newRow = this.cells[i];
+                            for (let j = 0; j < 8; j++) {
+                                const target = newRow[j];
+                                if (figure?.canMove(target))
+                                    return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public highlightCells(selectedCell: Cell | null){
         for (let i = 0; i < this.cells.length; i++) {
             const row = this.cells[i];
             for (let j = 0; j < row.length; j++) {
                 const target = row[j];
-                target.available = !!selectefCell?.figure?.canMove(target);
+                target.available = !!selectedCell?.figure?.canMove(target);
             }
         }
     }
@@ -78,10 +182,10 @@ export class Board{
     }
     public addFigures(){
         this.addKings();
-        this.addQueens();
+        // this.addQueens();
         this.addRooks();
-        this.addBishops();
-        this.addKnight();
+        // this.addBishops();
+        // this.addKnight();
         this.addPawns();
 
     }

@@ -15,9 +15,11 @@ export class Rook extends Figure{
     canMove(target: Cell): boolean {
          if(!super.canMove(target))
             return false;
-        if(this.cell.isEmptyVertical(target))
+        if(this.cell.isEmptyVertical(target)
+        && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x))
             return true;
-        if(this.cell.isEmptyHorizontal(target))
+        if(this.cell.isEmptyHorizontal(target)
+        && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x))
             return true;
         return false;
     }
@@ -25,4 +27,5 @@ export class Rook extends Figure{
         super.moveFigure(target);
         this.isFirstStep = false;
     }
+
 }

@@ -126,3 +126,7 @@
   height: 100%;
   z-index: 998; /* ниже z-index, чем у модального окна */
 }
+
+.isKingUnderCheck{
+  background-color: #ab0b18;
+}

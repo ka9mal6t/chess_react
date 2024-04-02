@@ -17,6 +17,10 @@ export class Knight extends Figure{
         const dx = Math.abs(this.cell.x - target.x);
         const dy = Math.abs(this.cell.y - target.y);
 
-        return (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+        if (((dx === 1 && dy === 2) || (dx === 2 && dy === 1))
+        && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x))
+            return true;
+        return false;
     }
+
 }
