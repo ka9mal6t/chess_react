@@ -47,7 +47,6 @@ export class Board {
     }
 
     isWillBeKingUnderCheck(cell_y: number, cell_x: number, target_y: number, target_x: number): boolean {
-        console.log(cell_y, cell_x, target_y, target_x);
         const newBoard = this.getCopyBoard();
         const color = newBoard.cells[cell_y][cell_x].figure?.color;
         const enemyColor = color === Colors.WHITE ? Colors.BLACK : Colors.WHITE

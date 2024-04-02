@@ -21,10 +21,12 @@ const MessageComponent: FC<ModalProps> = ({ isOpen, message, handleClose}) => {
         <div className={`modal ${isOpen ? 'open' : ''}`}>
             <div className="modal-content">
                 <h2>{message}</h2>
-                <button onClick={handleClose}>Ok</button>
+                <div className="centered-button-container">
+                    <button className="centered-button" onClick={handleClose}>Ok</button>
+                </div>
             </div>
         </div>
-    );
+);
 };
 
 export default MessageComponent;

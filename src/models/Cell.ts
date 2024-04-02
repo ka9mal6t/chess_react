@@ -89,11 +89,9 @@ export class Cell{
             if (this.figure.name === FigureNames.KING
                 && Math.abs(target.x - this.x) === 2){
                 const secondTarget = this.board.getCell(this.x + (target.x - this.x)/2, target.y);
-                console.log(secondTarget)
                 const secondFigure = target.x - this.x > 0
                     ? this.board.getCell(7, target.y).figure
                     : this.board.getCell(0, target.y).figure;
-                console.log(secondFigure)
                 if(secondFigure)
                 {
                     this.board.cells[secondTarget.y][secondTarget.x].figure = secondFigure;
