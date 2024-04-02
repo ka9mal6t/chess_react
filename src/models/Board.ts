@@ -47,6 +47,7 @@ export class Board {
     }
 
     isWillBeKingUnderCheck(cell_y: number, cell_x: number, target_y: number, target_x: number): boolean {
+        console.log(cell_y, cell_x, target_y, target_x);
         const newBoard = this.getCopyBoard();
         const color = newBoard.cells[cell_y][cell_x].figure?.color;
         const enemyColor = color === Colors.WHITE ? Colors.BLACK : Colors.WHITE
@@ -55,7 +56,7 @@ export class Board {
         newBoard.cells[cell_y][cell_x].figure = null;
 
         if (color !== undefined) {
-            const kingPos = newBoard.getKingCell(color)
+            const kingPos = newBoard.getKingCell(color);
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
                     if (newBoard.cells[row][col].figure?.color === enemyColor
@@ -170,7 +171,7 @@ export class Board {
     }
     private addRooks(){
         new Rook(Colors.BLACK, this.getCell(0, 0));
-            new Rook(Colors.BLACK, this.getCell(7, 0));
+        new Rook(Colors.BLACK, this.getCell(7, 0));
         new Rook(Colors.WHITE, this.getCell(0, 7));
         new Rook(Colors.WHITE, this.getCell(7, 7));
     }
@@ -182,10 +183,10 @@ export class Board {
     }
     public addFigures(){
         this.addKings();
-        // this.addQueens();
+        this.addQueens();
         this.addRooks();
-        // this.addBishops();
-        // this.addKnight();
+        this.addBishops();
+        this.addKnight();
         this.addPawns();
 
     }

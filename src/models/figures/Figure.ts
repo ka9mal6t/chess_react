@@ -16,6 +16,7 @@ export class Figure{
     logo: typeof logo | null
     cell: Cell;
     name: FigureNames;
+    isFirstStep: boolean = true;
     id: number;
 
     constructor(color: Colors, cell: Cell) {
@@ -34,7 +35,9 @@ export class Figure{
         //     return false;
         return true;
     }
-    moveFigure(target: Cell){}
+    moveFigure(target: Cell){
+        this.isFirstStep = false;
+    }
     checkPawnUp(target: Cell): boolean{
         return true;
     }

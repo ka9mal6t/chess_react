@@ -5,7 +5,6 @@ import blackLogo from "../../assets/black-rook.png";
 import whiteLogo from "../../assets/white-rook.png";
 
 export class Rook extends Figure{
-    isFirstStep: boolean = true;
 
     constructor(color: Colors, cell: Cell) {
         super(color, cell);
@@ -22,10 +21,6 @@ export class Rook extends Figure{
         && !this.cell.board.isWillBeKingUnderCheck(this.cell.y, this.cell.x, target.y, target.x))
             return true;
         return false;
-    }
-    moveFigure(target: Cell) {
-        super.moveFigure(target);
-        this.isFirstStep = false;
     }
 
 }

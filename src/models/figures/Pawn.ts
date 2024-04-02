@@ -9,7 +9,6 @@ import {Knight} from "./Knight";
 import {Rook} from "./Rook";
 
 export class Pawn extends Figure{
-    isFirstStep: boolean = true;
 
     constructor(color: Colors, cell: Cell) {
         super(color, cell);
@@ -37,10 +36,6 @@ export class Pawn extends Figure{
             return true;
         }
         return false;
-    }
-    moveFigure(target: Cell) {
-        super.moveFigure(target);
-        this.isFirstStep = false;
     }
     checkPawnUp(target: Cell): boolean {
         if (target.figure
