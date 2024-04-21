@@ -1,8 +1,8 @@
 import {Figure, FigureNames} from "./Figure";
 import {Colors} from "../Colors";
 import {Cell} from "../Cell";
-import blackLogo from "../../assets/black-pawn.png";
-import whiteLogo from "../../assets/white-pawn.png";
+import blackLogo from "../../assets/pngwing.com (14).png";
+import whiteLogo from "../../assets/pngwing.com (6).png";
 import {Queen} from "./Queen";
 import {Bishop} from "./Bishop";
 import {Knight} from "./Knight";

@@ -50,7 +50,8 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
                 if (board.checkMate(enemyColor) && resultModal && !modalShown) {
                     setTimerStop(true);
                     setModalShown(true)
-                    setMessageModal(`${enemyColor.charAt(0).toUpperCase() + enemyColor.slice(1)} is win`)
+                    setMessageModal(`${enemyColor === Colors.WHITE? Colors.BLACK : Colors.WHITE.charAt(0).toUpperCase() 
+                        + enemyColor === Colors.WHITE? Colors.BLACK : Colors.WHITE.slice(1)} is win`)
                 }
             } else {
                 if (cell.figure?.color === currentPlayer?.color) {
